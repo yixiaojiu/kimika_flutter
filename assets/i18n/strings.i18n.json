@@ -1,0 +1,13 @@
+{
+  "locale": "English",
+  "receiveTab": {
+    "title": "Receive"
+  },
+  "sendTab": {
+    "title": "Send"
+  },
+  "settings": {
+    "title": "Settings",
+    "follow_system": "Follow system"
+  }
+}

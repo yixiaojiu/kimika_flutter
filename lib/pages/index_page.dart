@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kimika_flutter/gen/strings.g.dart';
 
 import 'receive/index_page.dart';
 import 'send/index_page.dart';
@@ -13,14 +14,16 @@ enum HomeTab {
 
   final IconData icon;
 
-  String get label {
+  String getLabel(BuildContext context) {
+    final t = Translations.of(context);
+
     switch (this) {
       case HomeTab.receive:
-        return "receive";
+        return t.receiveTab.title;
       case HomeTab.send:
-        return "send";
+        return t.sendTab.title;
       case HomeTab.settings:
-        return "setting";
+        return t.settings.title;
     }
   }
 }
@@ -72,7 +75,7 @@ class _IndexPageState extends State<IndexPage> {
           destinations: HomeTab.values.map((tab) {
             return NavigationDestination(
               icon: Icon(tab.icon),
-              label: tab.label,
+              label: tab.getLabel(context),
             );
           }).toList(),
         ));

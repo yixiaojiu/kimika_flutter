@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kimika_flutter/gen/strings.g.dart';
+import 'package:kimika_flutter/gen/i18n/strings.g.dart';
 
 import 'receive/index_page.dart';
 import 'send/index_page.dart';

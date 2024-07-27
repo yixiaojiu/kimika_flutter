@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
-import './grpc/demo.pbgrpc.dart';
+import './gen/grpc/demo.pbgrpc.dart';
 
 class GrpcWidget extends StatefulWidget {
   const GrpcWidget({super.key});

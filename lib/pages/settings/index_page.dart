@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kimika_flutter/gen/strings.g.dart';
+import 'package:kimika_flutter/gen/i18n/strings.g.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});

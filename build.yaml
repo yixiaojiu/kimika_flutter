@@ -8,5 +8,6 @@ targets:
           input_directory: assets/i18n
           input_file_pattern: .i18n.json
           output_format: multiple_files
+          output_directory: lib/gen/i18n
           string_interpolation: braces
           flat_map: false

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kimika_flutter/gen/i18n/strings.g.dart';
+import 'package:kimika_flutter/utils/storage.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -21,6 +22,23 @@ class _LanguagePopMenuButtonState extends State<LanguagePopMenuButton> {
   String _currentLanguage = t.settings.follow_system;
 
   @override
+  void initState() {
+    final languageTag =
+        LocalStorage.settings.read(SettingsKey.language.toString());
+    if (languageTag == null) {
+      setState(() {
+        _currentLanguage = t.settings.follow_system;
+      });
+    } else {
+      setState(() {
+        _currentLanguage = t.locale;
+      });
+    }
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final t = Translations.of(context);
 
@@ -31,6 +49,8 @@ class _LanguagePopMenuButtonState extends State<LanguagePopMenuButton> {
       return MenuItemButton(
         child: Text(locale?.humanName ?? t.settings.follow_system),
         onPressed: () {
+          LocalStorage.settings
+              .write(SettingsKey.language.toString(), locale?.languageTag);
           String newLanguage;
           // follow system
           if (locale == null) {

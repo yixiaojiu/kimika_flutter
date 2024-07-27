@@ -5,10 +5,20 @@ import 'package:provider/provider.dart';
 
 import 'pages/index_page.dart';
 import 'provider/count.dart';
+import 'utils/storage.dart';
 
-void main() {
+void main() async {
+  await LocalStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
-  LocaleSettings.useDeviceLocale();
+
+  // Initalize language
+  final languageTag =
+      LocalStorage.settings.read<String>(SettingsKey.language.toString());
+  if (languageTag == null) {
+    LocaleSettings.useDeviceLocale();
+  } else {
+    LocaleSettings.setLocaleRaw(languageTag);
+  }
   runApp(TranslationProvider(child: const App()));
 }
 

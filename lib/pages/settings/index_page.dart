@@ -18,6 +18,8 @@ class LanguagePopMenuButton extends StatefulWidget {
 }
 
 class _LanguagePopMenuButtonState extends State<LanguagePopMenuButton> {
+  String _currentLanguage = t.settings.follow_system;
+
   @override
   Widget build(BuildContext context) {
     final t = Translations.of(context);
@@ -28,11 +30,20 @@ class _LanguagePopMenuButtonState extends State<LanguagePopMenuButton> {
     ].map((locale) {
       return MenuItemButton(
         child: Text(locale?.humanName ?? t.settings.follow_system),
-        onPressed: () => {
-          if (locale == null)
-            {LocaleSettings.useDeviceLocale()}
-          else
-            {LocaleSettings.setLocale(locale)}
+        onPressed: () {
+          String newLanguage;
+          // follow system
+          if (locale == null) {
+            AppLocale appLocale = LocaleSettings.useDeviceLocale();
+            newLanguage = LocaleSettings
+                .instance.translationMap[appLocale]!.settings.follow_system;
+          } else {
+            LocaleSettings.setLocale(locale);
+            newLanguage = locale.humanName;
+          }
+          setState(() {
+            _currentLanguage = newLanguage;
+          });
         },
       );
     }).toList();
@@ -49,7 +60,7 @@ class _LanguagePopMenuButtonState extends State<LanguagePopMenuButton> {
               controller.open();
             }
           },
-          child: const Text('English'),
+          child: Text(_currentLanguage),
         );
       },
     );

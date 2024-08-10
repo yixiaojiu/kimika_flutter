@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:kimika_flutter/gen/i18n/strings.g.dart';
-import 'package:kimika_flutter/provider/settings.dart';
 import 'package:provider/provider.dart';
 
+import 'package:kimika_flutter/gen/i18n/strings.g.dart';
+import 'package:kimika_flutter/provider/settings.dart';
 import 'pages/index_page.dart';
-import 'provider/count.dart';
 import 'utils/storage.dart';
+import 'package:kimika_flutter/provider/sender.dart';
 
 void main() async {
   await LocalStorage.init();
@@ -30,8 +30,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => CountModal()),
-        ChangeNotifierProvider(create: (context) => SettingsModal())
+        ChangeNotifierProvider(create: (context) => SettingsModal()),
+        ChangeNotifierProvider(create: (context) => SenderModal()),
       ],
       child: MaterialApp(
         locale: TranslationProvider.of(context).flutterLocale,

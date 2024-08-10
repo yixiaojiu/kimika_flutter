@@ -62,9 +62,9 @@ class _IndexPageState extends State<IndexPage> {
           child: PageView(
             controller: _pageController,
             physics: const NeverScrollableScrollPhysics(),
-            children: [
-              const ReceivePage(),
-              const SendPage(),
+            children: const [
+              ReceivePage(),
+              SendPage(),
               SettingsPage(),
             ],
           ),

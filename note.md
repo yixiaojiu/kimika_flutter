@@ -8,6 +8,8 @@ protoc --dart_out=grpc:lib/gen/grpc -I assets/protos/ assets/protos/demo.proto
 dart run build_runner build -d
 ```
 
-## Task
+## Setting
 
-先写 remote 逻辑
+udp 端口 3939
+
+http 端口 3939

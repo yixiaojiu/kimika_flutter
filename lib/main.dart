@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kimika_flutter/gen/i18n/strings.g.dart';
+import 'package:kimika_flutter/provider/settings.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/index_page.dart';
@@ -28,7 +29,10 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => CountModal())],
+      providers: [
+        ChangeNotifierProvider(create: (context) => CountModal()),
+        ChangeNotifierProvider(create: (context) => SettingsModal())
+      ],
       child: MaterialApp(
         locale: TranslationProvider.of(context).flutterLocale,
         supportedLocales: AppLocaleUtils.supportedLocales,

@@ -1,94 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:kimika_flutter/gen/i18n/strings.g.dart';
-import 'package:kimika_flutter/utils/storage.dart';
+import './language_menu_button.dart';
+import './widget.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: LanguagePopMenuButton());
-  }
-}
+    final titleMedium = Theme.of(context).textTheme.titleMedium;
 
-class LanguagePopMenuButton extends StatefulWidget {
-  const LanguagePopMenuButton({super.key});
-
-  @override
-  State<LanguagePopMenuButton> createState() => _LanguagePopMenuButtonState();
-}
-
-class _LanguagePopMenuButtonState extends State<LanguagePopMenuButton> {
-  String _currentLanguage = t.settings.follow_system;
-
-  @override
-  void initState() {
-    final languageTag =
-        LocalStorage.settings.read(SettingsKey.language.toString());
-    if (languageTag == null) {
-      setState(() {
-        _currentLanguage = t.settings.follow_system;
-      });
-    } else {
-      setState(() {
-        _currentLanguage = t.locale;
-      });
-    }
-
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final t = Translations.of(context);
-
-    final menuChildren = [
-      null,
-      ...AppLocale.values,
-    ].map((locale) {
-      return MenuItemButton(
-        child: Text(locale?.humanName ?? t.settings.follow_system),
-        onPressed: () {
-          LocalStorage.settings
-              .write(SettingsKey.language.toString(), locale?.languageTag);
-          String newLanguage;
-          // follow system
-          if (locale == null) {
-            AppLocale appLocale = LocaleSettings.useDeviceLocale();
-            newLanguage = LocaleSettings
-                .instance.translationMap[appLocale]!.settings.follow_system;
-          } else {
-            LocaleSettings.setLocale(locale);
-            newLanguage = locale.humanName;
-          }
-          setState(() {
-            _currentLanguage = newLanguage;
-          });
-        },
-      );
-    }).toList();
-
-    return MenuAnchor(
-      menuChildren: menuChildren,
-      builder:
-          (BuildContext context, MenuController controller, Widget? child) {
-        return TextButton(
-          onPressed: () {
-            if (controller.isOpen) {
-              controller.close();
-            } else {
-              controller.open();
-            }
-          },
-          child: Text(_currentLanguage),
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          Card(
+            child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Row(children: [
+                      Text(
+                        "General",
+                        style: titleMedium,
+                      )
+                    ]),
+                    const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [Text("Language"), LanguagePopMenuButton()])
+                  ],
+                )),
+          ),
+          const SizedBox(height: 20),
+          Card(
+            child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Text(
+                      "Receive",
+                      style: titleMedium,
+                    ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text("Port"), TextCenterInput()],
+                    )
+                  ],
+                )),
+          )
+        ],
+      ),
     );
-  }
-}
-
-extension AppLocaleExt on AppLocale {
-  String get humanName {
-    return LocaleSettings.instance.translationMap[this]!.locale;
   }
 }

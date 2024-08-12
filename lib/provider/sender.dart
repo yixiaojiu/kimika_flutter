@@ -3,7 +3,7 @@ import 'dart:io';
 
 class Receiver {
   String alias;
-  InternetAddress address;
+  String address;
   int port;
   Receiver({
     required this.alias,

@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:provider/provider.dart';
 
 import 'package:kimika_flutter/provider/sender.dart';
+import 'package:kimika_flutter/utils/dio.dart';
 
 class SendPage extends StatelessWidget {
   const SendPage({super.key});
@@ -82,14 +83,31 @@ class _SendContentState extends State<SendContent> {
       final body = await utf8.decoder.bind(request).join();
       final receiver = jsonDecode(body);
 
+      request.connectionInfo!.remoteAddress;
+
       addReceiver(Receiver(
           alias: receiver["alias"],
-          address: request.connectionInfo!.remoteAddress,
+          address: request.connectionInfo!.remoteAddress.address,
           port: receiver["port"]));
 
       res.write("Ok");
       res.close();
     });
+  }
+
+  Future sendMetadata(Receiver receiver) async {
+    final baseUrl = "http://${receiver.address}:${receiver.port}";
+
+    final res = await dio.post<Map<String, dynamic>>("$baseUrl/metadata",
+        data: {"fingerprint": "fsfsfs", "metadatas": []});
+    List<Map<String, String>> selectedList = res.data!["data"]["selected"];
+
+    for (var item in selectedList) {
+      var id = item["id"];
+      var token = item["token"];
+
+      dio.post("$baseUrl/upload?id=$id&token=$token", data: "fffff".codeUnits);
+    }
   }
 
   @override
